@@ -510,6 +510,136 @@ body {
   margin-bottom: 6px;
 }
 
+/* ===== GALERIA ===== */
+.gallery {
+  max-width: 1100px;
+  margin: 70px auto 0;
+  scroll-margin-top: calc(var(--nav-h) + 20px);
+}
+.gallery-head { text-align: center; margin-bottom: 28px; }
+.gallery-head .eyebrow { color: var(--gold-dark); margin: 0; }
+.gallery-head h2 { font: 40px Georgia, serif; margin: 12px 0 10px; }
+.gallery-head h2 em { color: var(--gold); }
+.gallery-head p { color: var(--muted); }
+.g-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+.g-filters button {
+  font: 12px Arial, sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: .25s;
+}
+.g-filters button:hover { border-color: var(--gold); }
+.g-filters button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+.g-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 250px;
+  grid-auto-flow: dense;
+  gap: 12px;
+}
+.g-item {
+  position: relative;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface);
+  cursor: zoom-in;
+  animation: fadeUp .5s ease both;
+}
+.g-item.tall { grid-row: span 2; }
+.g-item.wide { grid-column: span 2; }
+.g-item[hidden] { display: none; }
+.g-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .7s ease, filter .4s ease;
+  filter: saturate(.95) brightness(.92);
+}
+.g-item:hover img, .g-item:focus-visible img { transform: scale(1.07); filter: saturate(1.05) brightness(1); }
+.g-item:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.g-item figcaption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 34px 14px 12px;
+  text-align: left;
+  color: #f3ede2;
+  font: 15px Georgia, serif;
+  background: linear-gradient(180deg, transparent, rgba(15,15,12,.85));
+  opacity: 0;
+  transform: translateY(8px);
+  transition: .35s ease;
+}
+.g-item figcaption small {
+  display: block;
+  color: var(--gold);
+  font: 10px Arial, sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.g-item:hover figcaption, .g-item:focus-visible figcaption { opacity: 1; transform: none; }
+@media (hover: none) { .g-item figcaption { opacity: 1; transform: none; } }
+
+/* lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 70px 30px;
+  background: rgba(12,12,10,.96);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s;
+}
+.lightbox.open { opacity: 1; visibility: visible; }
+.lightbox img {
+  max-width: 100%;
+  max-height: calc(100vh - 160px);
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  transform: scale(.96);
+  transition: transform .3s ease;
+}
+.lightbox.open img { transform: none; }
+.lb-caption { margin-top: 16px; text-align: center; color: var(--text); font: 18px Georgia, serif; }
+.lb-caption small { display: block; color: var(--gold); font: 11px Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; margin-top: 6px; }
+.lb-btn {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(196,154,97,.45);
+  background: rgba(23,23,19,.7);
+  color: var(--gold);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: .25s;
+}
+.lb-btn:hover { background: var(--gold); color: var(--dark); }
+.lb-close { top: 18px; right: 18px; font-size: 28px; }
+.lb-prev { left: 14px; top: 50%; margin-top: -24px; }
+.lb-next { right: 14px; top: 50%; margin-top: -24px; }
+
 /* ===== RODAPÉ ===== */
 footer {
   padding: 45px 8%;
@@ -606,6 +736,22 @@ footer small { color: #888; }
   .block-head h2 { font-size: 26px; }
   .menu-icon { width: 58px; height: 58px; padding: 6px; }
   .menu-photo { height: 180px; }
+  .gallery { margin-top: 50px; }
+  .gallery-head h2 { font-size: 32px; }
+  .g-filters { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; margin: 0 -16px 22px; padding: 0 16px; scrollbar-width: none; }
+  .g-filters::-webkit-scrollbar { display: none; }
+  .g-filters button { flex-shrink: 0; }
+  .g-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 190px; gap: 8px; }
+  .g-item figcaption { font-size: 13px; padding: 26px 10px 9px; }
+  .lightbox { padding: 60px 12px 24px; }
+  .lb-prev, .lb-next { top: auto; bottom: 18px; margin: 0; }
+  .lb-prev { left: calc(50% - 60px); }
+  .lb-next { right: calc(50% - 60px); }
+  .lightbox img { max-height: calc(100vh - 210px); }
+  .lb-caption { margin-bottom: 60px; font-size: 16px; }
+}
+@media (max-width: 900px) and (min-width: 601px) {
+  .g-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 220px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -679,6 +825,7 @@ footer small { color: #888; }
   <a href="#churrasco-prata">Churrasco Prata</a>
   <a href="#churrasco-ouro">Churrasco Ouro</a>
   <a href="#crepe">Crepe Francês</a>
+  <a href="#galeria">Galeria</a>
 </nav>
 
 <main class="menu-section">
@@ -1444,7 +1591,228 @@ footer small { color: #888; }
     </div>
   </section>
 
+  <!-- ===================== GALERIA ===================== -->
+  <section class="gallery reveal" id="galeria">
+    <div class="gallery-head">
+      <span class="eyebrow">Nossos eventos</span>
+      <h2>Galeria <em>Sorelly</em></h2>
+      <p>Alguns momentos e pratos dos eventos que atendemos.</p>
+    </div>
+    <div class="g-filters" role="group" aria-label="Filtrar fotos">
+      <button type="button" data-filter="all" aria-pressed="true">Todas</button>
+      <button type="button" data-filter="crepes" aria-pressed="false">Crepes</button>
+      <button type="button" data-filter="pizzas" aria-pressed="false">Pizzas</button>
+      <button type="button" data-filter="saladas" aria-pressed="false">Saladas</button>
+      <button type="button" data-filter="churrasco" aria-pressed="false">Churrasco</button>
+      <button type="button" data-filter="buffet" aria-pressed="false">Buffet e porções</button>
+      <button type="button" data-filter="mesas" aria-pressed="false">Mesas e eventos</button>
+      <button type="button" data-filter="doces" aria-pressed="false">Doces</button>
+    </div>
+    <div class="g-grid">
+      <figure class="g-item tall" data-cat="crepes" data-full="fotos/crepe-chapa.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Crepe na chapa">
+        <img src="fotos/thumb/crepe-chapa.jpg" alt="Crepe na chapa" loading="lazy" decoding="async">
+        <figcaption><small>Crepes</small>Crepe na chapa</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="saladas" data-full="fotos/salada-3.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada decorada">
+        <img src="fotos/thumb/salada-3.jpg" alt="Salada decorada" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada decorada</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="churrasco" data-full="fotos/churrasco-espetos.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Espetos na brasa">
+        <img src="fotos/thumb/churrasco-espetos.jpg" alt="Espetos na brasa" loading="lazy" decoding="async">
+        <figcaption><small>Churrasco</small>Espetos na brasa</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="pizzas" data-full="fotos/pizza-calabresa.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Pizza de calabresa">
+        <img src="fotos/thumb/pizza-calabresa.jpg" alt="Pizza de calabresa" loading="lazy" decoding="async">
+        <figcaption><small>Pizzas</small>Pizza de calabresa</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/mesa-posta.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa posta">
+        <img src="fotos/thumb/mesa-posta.jpg" alt="Mesa posta" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa posta</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="crepes" data-full="fotos/crepe-salgado.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Crepe salgado">
+        <img src="fotos/thumb/crepe-salgado.jpg" alt="Crepe salgado" loading="lazy" decoding="async">
+        <figcaption><small>Crepes</small>Crepe salgado</figcaption>
+      </figure>
+      <figure class="g-item tall" data-cat="buffet" data-full="fotos/porcoes-tabua.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Tábua de porções">
+        <img src="fotos/thumb/porcoes-tabua.jpg" alt="Tábua de porções" loading="lazy" decoding="async">
+        <figcaption><small>Buffet e porções</small>Tábua de porções</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="saladas" data-full="fotos/salada-6.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada com rosa de beterraba">
+        <img src="fotos/thumb/salada-6.jpg" alt="Salada com rosa de beterraba" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada com rosa de beterraba</figcaption>
+      </figure>
+      <figure class="g-item tall" data-cat="buffet" data-full="fotos/frios-tabuas.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Tábuas de frios">
+        <img src="fotos/thumb/frios-tabuas.jpg" alt="Tábuas de frios" loading="lazy" decoding="async">
+        <figcaption><small>Buffet e porções</small>Tábuas de frios</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/mesa-tiffany.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa azul e verde-água">
+        <img src="fotos/thumb/mesa-tiffany.jpg" alt="Mesa azul e verde-água" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa azul e verde-água</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="mesas" data-full="fotos/equipe.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Nossa equipe">
+        <img src="fotos/thumb/equipe.jpg" alt="Equipe Sorelly uniformizada ao lado de uma mesa posta" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Nossa equipe</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="churrasco" data-full="fotos/churrasco-chapa.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Carnes na chapa">
+        <img src="fotos/thumb/churrasco-chapa.jpg" alt="Carnes na chapa" loading="lazy" decoding="async">
+        <figcaption><small>Churrasco</small>Carnes na chapa</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="pizzas" data-full="fotos/pizza-chocolate-morango.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Pizza de chocolate com morango">
+        <img src="fotos/thumb/pizza-chocolate-morango.jpg" alt="Pizza de chocolate com morango" loading="lazy" decoding="async">
+        <figcaption><small>Pizzas</small>Pizza de chocolate com morango</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="crepes" data-full="fotos/crepe-prato.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Crepe servido">
+        <img src="fotos/thumb/crepe-prato.jpg" alt="Crepe servido" loading="lazy" decoding="async">
+        <figcaption><small>Crepes</small>Crepe servido</figcaption>
+      </figure>
+      <figure class="g-item tall" data-cat="doces" data-full="fotos/bolo-morangos.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Bolo com morangos">
+        <img src="fotos/thumb/bolo-morangos.jpg" alt="Bolo com morangos" loading="lazy" decoding="async">
+        <figcaption><small>Doces</small>Bolo com morangos</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="saladas" data-full="fotos/salada-1.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada em flor">
+        <img src="fotos/thumb/salada-1.jpg" alt="Salada em flor" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada em flor</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="buffet" data-full="fotos/caldinho.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Caldinho de feijão">
+        <img src="fotos/thumb/caldinho.jpg" alt="Caldinho de feijão" loading="lazy" decoding="async">
+        <figcaption><small>Buffet e porções</small>Caldinho de feijão</figcaption>
+      </figure>
+      <figure class="g-item tall" data-cat="mesas" data-full="fotos/salao-mesa-posta.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salão com mesa posta">
+        <img src="fotos/thumb/salao-mesa-posta.jpg" alt="Salão com mesa posta e lustres" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Salão com mesa posta</figcaption>
+      </figure>
+      <figure class="g-item tall" data-cat="mesas" data-full="fotos/mesa-decorada.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa decorada com flores">
+        <img src="fotos/thumb/mesa-decorada.jpg" alt="Mesa decorada com flores" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa decorada com flores</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="churrasco" data-full="fotos/churrasco-grelha.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Carnes na grelha">
+        <img src="fotos/thumb/churrasco-grelha.jpg" alt="Carnes na grelha" loading="lazy" decoding="async">
+        <figcaption><small>Churrasco</small>Carnes na grelha</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="saladas" data-full="fotos/salada-7.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada de pepino e pimentão">
+        <img src="fotos/thumb/salada-7.jpg" alt="Salada de pepino e pimentão" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada de pepino e pimentão</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="pizzas" data-full="fotos/pizza-colorida.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Pizza colorida">
+        <img src="fotos/thumb/pizza-colorida.jpg" alt="Pizza colorida" loading="lazy" decoding="async">
+        <figcaption><small>Pizzas</small>Pizza colorida</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="buffet" data-full="fotos/feijoada-acompanhamentos.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Acompanhamentos da feijoada">
+        <img src="fotos/thumb/feijoada-acompanhamentos.jpg" alt="Acompanhamentos da feijoada" loading="lazy" decoding="async">
+        <figcaption><small>Buffet e porções</small>Acompanhamentos da feijoada</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="doces" data-full="fotos/brigadeiros-beijinhos.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Brigadeiros e beijinhos">
+        <img src="fotos/thumb/brigadeiros-beijinhos.jpg" alt="Bandejas de brigadeiros e beijinhos" loading="lazy" decoding="async">
+        <figcaption><small>Doces</small>Brigadeiros e beijinhos</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/mesa-jardim.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa no jardim">
+        <img src="fotos/thumb/mesa-jardim.jpg" alt="Mesa no jardim" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa no jardim</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="crepes" data-full="fotos/crepe-doce.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Crepe doce com banana">
+        <img src="fotos/thumb/crepe-doce.jpg" alt="Crepe doce com banana" loading="lazy" decoding="async">
+        <figcaption><small>Crepes</small>Crepe doce com banana</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="buffet" data-full="fotos/salgados-lanches.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salgadinhos e lanches">
+        <img src="fotos/thumb/salgados-lanches.jpg" alt="Salgadinhos e lanches" loading="lazy" decoding="async">
+        <figcaption><small>Buffet e porções</small>Salgadinhos e lanches</figcaption>
+      </figure>
+      <figure class="g-item tall" data-cat="saladas" data-full="fotos/salada-2.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada com rosa de tomate">
+        <img src="fotos/thumb/salada-2.jpg" alt="Salada com rosa de tomate" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada com rosa de tomate</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="doces" data-full="fotos/mesa-flores-doces.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa de doces com flores">
+        <img src="fotos/thumb/mesa-flores-doces.jpg" alt="Mesa de doces com flores" loading="lazy" decoding="async">
+        <figcaption><small>Doces</small>Mesa de doces com flores</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="churrasco" data-full="fotos/churrasco-espetinhos.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Espetinhos servidos">
+        <img src="fotos/thumb/churrasco-espetinhos.jpg" alt="Espetinhos servidos" loading="lazy" decoding="async">
+        <figcaption><small>Churrasco</small>Espetinhos servidos</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="buffet" data-full="fotos/frios-frutas.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Frios, queijos e frutas">
+        <img src="fotos/thumb/frios-frutas.jpg" alt="Frios, queijos e frutas" loading="lazy" decoding="async">
+        <figcaption><small>Buffet e porções</small>Frios, queijos e frutas</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/mesa-redonda-verde-agua.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa redonda verde-água">
+        <img src="fotos/thumb/mesa-redonda-verde-agua.jpg" alt="Mesa redonda com guardanapos verde-água e sousplats dourados" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa redonda verde-água</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/mesa-verde.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa verde">
+        <img src="fotos/thumb/mesa-verde.jpg" alt="Mesa verde" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa verde</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="saladas" data-full="fotos/salada-8.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada de cenoura e tomate">
+        <img src="fotos/thumb/salada-8.jpg" alt="Salada de cenoura e tomate" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada de cenoura e tomate</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="pizzas" data-full="fotos/pizza-chocolate-frutas.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Pizza de chocolate com frutas">
+        <img src="fotos/thumb/pizza-chocolate-frutas.jpg" alt="Pizza de chocolate com frutas" loading="lazy" decoding="async">
+        <figcaption><small>Pizzas</small>Pizza de chocolate com frutas</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/buffet-jardim.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Buffet ao ar livre">
+        <img src="fotos/thumb/buffet-jardim.jpg" alt="Buffet ao ar livre" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Buffet ao ar livre</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="buffet" data-full="fotos/porcoes-fritas.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Fritas e frituras">
+        <img src="fotos/thumb/porcoes-fritas.jpg" alt="Fritas e frituras" loading="lazy" decoding="async">
+        <figcaption><small>Buffet e porções</small>Fritas e frituras</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/mesa-azul.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa azul">
+        <img src="fotos/thumb/mesa-azul.jpg" alt="Mesa azul" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa azul</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="saladas" data-full="fotos/salada-4.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada colorida">
+        <img src="fotos/thumb/salada-4.jpg" alt="Salada colorida" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada colorida</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="churrasco" data-full="fotos/churrasco-servido.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Espetos no réchaud">
+        <img src="fotos/thumb/churrasco-servido.jpg" alt="Espetos no réchaud" loading="lazy" decoding="async">
+        <figcaption><small>Churrasco</small>Espetos no réchaud</figcaption>
+      </figure>
+      <figure class="g-item tall" data-cat="mesas" data-full="fotos/mesa-floral.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa floral">
+        <img src="fotos/thumb/mesa-floral.jpg" alt="Mesa floral" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa floral</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="buffet" data-full="fotos/pasteis.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Pastéis com vinagrete">
+        <img src="fotos/thumb/pasteis.jpg" alt="Pastéis com vinagrete" loading="lazy" decoding="async">
+        <figcaption><small>Buffet e porções</small>Pastéis com vinagrete</figcaption>
+      </figure>
+      <figure class="g-item wide" data-cat="doces" data-full="fotos/docinhos-balas.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Doces e balas de goma">
+        <img src="fotos/thumb/docinhos-balas.jpg" alt="Bandeja de doces e balas de goma" loading="lazy" decoding="async">
+        <figcaption><small>Doces</small>Doces e balas de goma</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="saladas" data-full="fotos/salada-9.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada com kiwi e kani">
+        <img src="fotos/thumb/salada-9.jpg" alt="Salada com kiwi e kani" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada com kiwi e kani</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/cafe.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Estação de café">
+        <img src="fotos/thumb/cafe.jpg" alt="Estação de café" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Estação de café</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="mesas" data-full="fotos/mesa-cafe.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa de café">
+        <img src="fotos/thumb/mesa-cafe.jpg" alt="Mesa de café com xícaras e bombons" loading="lazy" decoding="async">
+        <figcaption><small>Mesas e eventos</small>Mesa de café</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="saladas" data-full="fotos/salada-5.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Salada verde">
+        <img src="fotos/thumb/salada-5.jpg" alt="Salada verde" loading="lazy" decoding="async">
+        <figcaption><small>Saladas</small>Salada verde</figcaption>
+      </figure>
+      <figure class="g-item" data-cat="doces" data-full="fotos/mesa-doces.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Mesa de doces">
+        <img src="fotos/thumb/mesa-doces.jpg" alt="Mesa de doces" loading="lazy" decoding="async">
+        <figcaption><small>Doces</small>Mesa de doces</figcaption>
+      </figure>
+    </div>
+  </section>
+
 </main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada" aria-hidden="true">
+  <button class="lb-btn lb-close" type="button" aria-label="Fechar">×</button>
+  <button class="lb-btn lb-prev" type="button" aria-label="Foto anterior">‹</button>
+  <img src="" alt="">
+  <p class="lb-caption"></p>
+  <button class="lb-btn lb-next" type="button" aria-label="Próxima foto">›</button>
+</div>
 
 <footer>
   <div class="logo">SORELLY</div>
@@ -1512,7 +1880,83 @@ footer small { color: #888; }
       });
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
-  document.querySelectorAll('.menu-block').forEach(function (b) { spy.observe(b); });
+  document.querySelectorAll('.menu-block, .gallery').forEach(function (b) { spy.observe(b); });
+})();
+</script>
+
+<script>
+(function () {
+  var items = Array.prototype.slice.call(document.querySelectorAll('.g-item'));
+  var buttons = document.querySelectorAll('.g-filters button');
+  var lb = document.getElementById('lightbox');
+  var lbImg = lb.querySelector('img');
+  var lbCap = lb.querySelector('.lb-caption');
+  var current = 0, lastFocus = null;
+
+  // filtros
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var f = btn.dataset.filter;
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      items.forEach(function (it) {
+        it.hidden = !(f === 'all' || it.dataset.cat === f);
+        if (!it.hidden) { it.style.animation = 'none'; it.offsetHeight; it.style.animation = ''; }
+      });
+    });
+  });
+
+  function visible() { return items.filter(function (it) { return !it.hidden; }); }
+
+  function show(i) {
+    var list = visible();
+    current = (i + list.length) % list.length;
+    var it = list[current];
+    lbImg.src = it.dataset.full;
+    lbImg.alt = it.querySelector('img').alt;
+    var cap = it.querySelector('figcaption');
+    lbCap.innerHTML = cap.childNodes[1].textContent + '<small>' + cap.querySelector('small').textContent + ' · ' + (current + 1) + ' de ' + list.length + '</small>';
+  }
+  function open(it) {
+    lastFocus = it;
+    show(visible().indexOf(it));
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    lb.querySelector('.lb-close').focus();
+  }
+  function close() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+
+  items.forEach(function (it) {
+    it.addEventListener('click', function () { open(it); });
+    it.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(it); }
+    });
+  });
+  lb.querySelector('.lb-close').addEventListener('click', close);
+  lb.querySelector('.lb-prev').addEventListener('click', function () { show(current - 1); });
+  lb.querySelector('.lb-next').addEventListener('click', function () { show(current + 1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  // deslizar no celular
+  var x0 = null;
+  lb.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
 })();
 </script>
 </body>
