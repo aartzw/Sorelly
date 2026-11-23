@@ -640,6 +640,49 @@ body {
 .lb-prev { left: 14px; top: 50%; margin-top: -24px; }
 .lb-next { right: 14px; top: 50%; margin-top: -24px; }
 
+/* destaque da galeria */
+.g-feature-wrap {
+  position: relative;
+  margin: 0 0 34px;
+  padding: 26px;
+  border: 1px solid rgba(196,154,97,.45);
+  border-radius: 10px;
+  background:
+    radial-gradient(ellipse at top, rgba(196,154,97,.12), transparent 70%),
+    var(--surface);
+}
+.g-feature-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-bottom: 18px;
+}
+.g-feature-head h3 { font: 28px Georgia, serif; }
+.g-feature-head h3 em { color: var(--gold); }
+.g-feature-head p { color: var(--muted); font-size: 14px; }
+.g-badge {
+  position: absolute;
+  top: -13px;
+  left: 26px;
+  background: var(--gold);
+  color: var(--dark);
+  font: bold 11px Arial, sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.g-feature-grid {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 14px;
+  height: 440px;
+}
+.g-feature-grid .g-item { animation: none; border-color: rgba(196,154,97,.35); }
+.g-feature-grid .g-item:nth-child(2) img { object-position: center 20%; }
+
 /* ===== RODAPÉ ===== */
 footer {
   padding: 45px 8%;
@@ -743,6 +786,12 @@ footer small { color: #888; }
   .g-filters button { flex-shrink: 0; }
   .g-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 190px; gap: 8px; }
   .g-item figcaption { font-size: 13px; padding: 26px 10px 9px; }
+  .g-feature-wrap { padding: 22px 14px 14px; margin-bottom: 26px; }
+  .g-badge { left: 14px; }
+  .g-feature-head h3 { font-size: 23px; }
+  .g-feature-grid { grid-template-columns: 1fr; height: auto; gap: 10px; }
+  .g-feature-grid .g-item:nth-child(1) { height: 250px; }
+  .g-feature-grid .g-item:nth-child(2) { height: 380px; }
   .lightbox { padding: 60px 12px 24px; }
   .lb-prev, .lb-next { top: auto; bottom: 18px; margin: 0; }
   .lb-prev { left: calc(50% - 60px); }
@@ -1598,6 +1647,23 @@ footer small { color: #888; }
       <h2>Galeria <em>Sorelly</em></h2>
       <p>Alguns momentos e pratos dos eventos que atendemos.</p>
     </div>
+    <div class="g-feature-wrap">
+      <span class="g-badge">★ Destaque</span>
+      <div class="g-feature-head">
+        <h3>Convidados <em>especiais</em></h3>
+        <p>O dono da Sorelly com personalidades em eventos atendidos pelo buffet.</p>
+      </div>
+      <div class="g-feature-grid">
+        <figure class="g-item g-feature" data-cat="destaque" data-full="fotos/destaque-1.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Convidados especiais">
+          <img src="fotos/thumb/destaque-1.jpg" alt="O dono da Sorelly com convidados especiais em um evento" loading="lazy" decoding="async">
+          <figcaption><small>Destaque</small>Convidados especiais</figcaption>
+        </figure>
+        <figure class="g-item g-feature" data-cat="destaque" data-full="fotos/destaque-2.jpg" tabindex="0" role="button" aria-label="Ampliar foto: Convidado especial">
+          <img src="fotos/thumb/destaque-2.jpg" alt="O dono da Sorelly com um convidado especial em um evento" loading="lazy" decoding="async">
+          <figcaption><small>Destaque</small>Convidado especial</figcaption>
+        </figure>
+      </div>
+    </div>
     <div class="g-filters" role="group" aria-label="Filtrar fotos">
       <button type="button" data-filter="all" aria-pressed="true">Todas</button>
       <button type="button" data-filter="crepes" aria-pressed="false">Crepes</button>
@@ -1899,6 +1965,7 @@ footer small { color: #888; }
       var f = btn.dataset.filter;
       buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
       items.forEach(function (it) {
+        if (it.classList.contains('g-feature')) return;
         it.hidden = !(f === 'all' || it.dataset.cat === f);
         if (!it.hidden) { it.style.animation = 'none'; it.offsetHeight; it.style.animation = ''; }
       });
